@@ -23,6 +23,8 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
+#include "Particle.h"
+#include "ParticleSystem.h"
 
 class Game
 {
@@ -36,11 +38,13 @@ private:
 	void UpdateModel();
 	/********************************/
 	/*  User Functions              */
+
 	/********************************/
 private:
 	MainWindow& wnd;
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
+	ParticleSystem particles;
 	/********************************/
 };

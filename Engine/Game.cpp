@@ -24,7 +24,13 @@
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd )
+	gfx( wnd ),
+	particles({
+		new Particle(5.0f, 1.0f, 1.0f, Vec2(200.0f, 400.0f), Vec2(1.0f, 0.0f)),
+		new Particle(5.0f, 1.0f, 1.0f, Vec2(400.0f, 400.0f), Vec2(-1.0f, 0.0f))
+		/*new Particle(5.0f, 1.0f, 1.0f, Vec2(300.0f, 300.0f)),
+		new Particle(5.0f, 1.0f, 1.0f, Vec2(500.0f, 300.0f))*/
+		})
 {
 }
 
@@ -38,8 +44,14 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+
 }
 
 void Game::ComposeFrame()
 {
+	particles.CalculateForces();
+	particles.ComputeParticles();
+	particles.DrawParticles(gfx);
 }
+
+
