@@ -28,29 +28,11 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd ),
 	particles({
-		/*new Particle(5.0f, 1.0f, 1.0f, Vec2(392.0f, 400.0f), Vec2(0.0f, 0.0f)),
-		new Particle(5.0f, 1.0f, 1.0f, Vec2(408.0f, 400.0f), Vec2(0.0f, 0.0f)),
-		new Particle(5.0f, 1.0f, 1.0f, Vec2(200.0f, 500.0f), Vec2(0.0f, 0.0f)),
-		new Particle(5.0f, 1.0f, 1.0f, Vec2(500.0f, 200.0f), Vec2(0.0f, 0.0f)),
-		new Particle(5.0f, 1.0f, 1.0f, Vec2(392.0f, 300.0f), Vec2(0.0f, 0.0f)),
-		new Particle(5.0f, 1.0f, 1.0f, Vec2(408.0f, 100.0f), Vec2(0.0f, 0.0f)),
-		new Particle(5.0f, 1.0f, 1.0f, Vec2(200.0f, 600.0f), Vec2(0.0f, 0.0f)),
-		new Particle(5.0f, 1.0f, 1.0f, Vec2(500.0f, 250.0f), Vec2(0.0f, 0.0f)),*/
-		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
-		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
-		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
-		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
-		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
-		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
-		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
-		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
-		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
-		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
-		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
-		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
-		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
-		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
-		}),
+		new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f),
+		new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f),
+		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
+		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
+	}),	
 	gui(&particles)
 {
 }
@@ -67,7 +49,8 @@ void Game::UpdateModel()
 {
 	const float dt = frameTimer.Mark();
 	particles.ParticleSystemComputation();
-	particles.ComputeParticles(dt);
+	particles.UpdateParticles(dt);
+	particles.AdjustForCollision();
 }
 
 void Game::ComposeFrame()

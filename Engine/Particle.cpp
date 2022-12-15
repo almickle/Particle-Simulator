@@ -4,7 +4,7 @@
 
 
 // onframe computation bundle
-void Particle::Compute(float dt)
+void Particle::Update(float dt)
 {
 	SummateForces();
 	acceleration = netForce.Scale(1 / mass);
@@ -56,6 +56,14 @@ void Particle::AddForce(Vec2 in_force)
 {
 	forces.push_back(in_force);
 }
+void Particle::AdjustPosition(float amount)
+{
+	position = position.Subtract(velocity.Unit().Scale(amount));
+}
+void Particle::AdjustVelocity(Vec2 cpv, float cpm)
+{
+	velocity = cpv.Scale(cpm / mass);
+}
 
 
 // getter functions
@@ -75,7 +83,14 @@ float Particle::GetKE()
 {
 	return kineticEnergy;
 }
-
+Vec2 Particle::GetVelocity()
+{
+	return velocity;
+}
+float Particle::GetMass()
+{
+	return mass;
+}
 
 // border handling
 void Particle::Wrap()

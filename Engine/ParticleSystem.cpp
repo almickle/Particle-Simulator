@@ -5,7 +5,7 @@ void ParticleSystem::AssignParticlePairs()
 {
 	for (int i = 0; i < particles.size(); i++)
 	{
-		for (int k = 0; k < particles.size(); k++)
+		for (int k = i; k < particles.size(); k++)
 		{
 			if (i != k)
 			{
@@ -49,12 +49,37 @@ void ParticleSystem::ParticleSystemComputation()
 }
 
 // compute and draw
-void ParticleSystem::ComputeParticles(float dt)
+void ParticleSystem::UpdateParticles(float dt)
 {
 	for (int i = 0; i < particles.size(); i++)
 	{
 		Particle& ptcl = *particles[i];
-		ptcl.Compute(dt);
+		ptcl.Update(dt);
+	}
+}
+void ParticleSystem::AdjustForCollision()
+{
+	for (int i = 0; i < particlepairs.size(); i++)
+	{
+		ParticlePair& pair = *particlepairs[i];
+		if (pair.GetColliding())
+		{
+			Particle& ptcla = pair.PtclaAddr();
+			Particle& ptclb = pair.PtclbAddr();
+			Vec2 pav = ptcla.GetVelocity();
+			Vec2 pbv = ptclb.GetVelocity();
+			float pam = ptcla.GetMass();
+			float pbm = ptclb.GetMass();
+
+			float d = pair.GetDistance();
+			float target = abs(ptcla.GetRadius() - ptclb.GetRadius());
+			float value = target - d;
+			
+			//ptcla.AdjustPosition(value);
+			//ptclb.AdjustPosition(value);
+			ptcla.AdjustVelocity(pbv, pbm);
+			ptclb.AdjustVelocity(pav, pam);
+		}
 	}
 }
 void ParticleSystem::DrawParticles(Graphics& gfx)
@@ -120,5 +145,5 @@ float ParticleSystem::GetTotalEnergy()
 }
 int ParticleSystem::ParticleCount()
 {
-	return particles.size();
+	return (int)particles.size();
 }

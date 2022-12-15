@@ -34,7 +34,8 @@ private:
 	void DetermineCoulombicForces();
 public:
 	void ParticleSystemComputation();
-	void ComputeParticles(float dt);
+	void UpdateParticles(float dt);
+	void AdjustForCollision();
 	void DrawParticles(Graphics& gfx);
 public:
 	float GetKineticEnergy();

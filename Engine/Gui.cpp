@@ -29,4 +29,13 @@ void Gui::DrawBar(Graphics& gfx, int locx, int locy, int width, float value, int
 			}
 		}
 	}
+	else {
+		for (int x = locx; x < abs(value) * scale + locx; x++)
+		{
+			for (int y = locy; y < locy + width; y++)
+			{
+				gfx.PutPixel(x, y, Color(255, 50, 50));
+			}
+		}
+	}
 }

@@ -19,6 +19,8 @@ private:
 	float distSq;
 	float coulombic;
 	float potentialEnergy;
+private:
+	bool colliding = false;
 public:
 	void Calculate();
 public:
@@ -27,5 +29,8 @@ public:
 public:
 	Particle& PtclaAddr();
 	Particle& PtclbAddr();
+public:
+	bool GetColliding();
+	float GetDistance();
 };
 
