@@ -29,6 +29,7 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	particles({
 		new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f),
+		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
 		new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f),
 		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
 		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
@@ -50,13 +51,13 @@ void Game::UpdateModel()
 	const float dt = frameTimer.Mark();
 	particles.ParticleSystemComputation();
 	particles.UpdateParticles(dt);
-	particles.AdjustForCollision();
+	particles.AdjustForCollision(dt);
 }
 
 void Game::ComposeFrame()
 {
 	particles.DrawParticles(gfx);
-	gui.DrawHUD(gfx);
+	//gui.DrawHUD(gfx);
 }
 
 

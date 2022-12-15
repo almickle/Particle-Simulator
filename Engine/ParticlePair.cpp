@@ -25,6 +25,11 @@ void ParticlePair::Calculate()
 	coulombic = f;
 }
 
+void ParticlePair::ResolveCollision()
+{
+	colliding = false;
+}
+
 float ParticlePair::GetCoulombic()
 {
 	return coulombic;

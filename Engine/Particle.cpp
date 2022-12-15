@@ -13,8 +13,6 @@ void Particle::Update(float dt)
 
 	CalculateKE();
 	ClearForces();
-
-	Clamp();
 }
 
 
@@ -62,7 +60,24 @@ void Particle::AdjustPosition(float amount)
 }
 void Particle::AdjustVelocity(Vec2 cpv, float cpm)
 {
-	velocity = cpv.Scale(cpm / mass);
+	float cpvx = cpv.GetX();
+	float cpvy = cpv.GetY();
+	float velx = velocity.GetX();
+	float vely = velocity.GetY();
+
+	float vx = (2.0f * cpm * cpvx + mass * velx - cpm * velx) / (mass + cpm);
+	float vy = (2.0f * cpm * cpvy + mass * vely - cpm * vely) / (mass + cpm);
+
+	velocity = Vec2(vx, vy);
+}
+
+void Particle::ProjectPosition(float dist, float dt)
+{
+	float correctionTime = sqrt((2.0f * (dist - velocity.Mag()) / acceleration.Mag()));
+	float travelTime = (dt - correctionTime) / 60.06f;
+	Vec2 travelDist = velocity.Scale(travelTime).Add(acceleration.Scale(travelTime * travelTime * 0.5f));
+
+	position = position.Add(velocity.Scale(10.0f * dt * 60.0f));
 }
 
 

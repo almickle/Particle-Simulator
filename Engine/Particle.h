@@ -60,7 +60,7 @@ private:
 public:
 	void DrawParticle(Graphics& gfx);
 	void Update(float dt);
-private:
+public:
 	void Wrap();
 	void Clamp();
 private:
@@ -71,6 +71,7 @@ public:
 	void AddForce(Vec2 in_force);
 	void AdjustPosition(float amount);
 	void AdjustVelocity(Vec2 cpv, float cpm);
+	void ProjectPosition(float dist, float dt);
 public:
 	Vec2 GetPosition();
 	float GetRadius();

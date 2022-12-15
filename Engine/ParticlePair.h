@@ -27,6 +27,8 @@ public:
 	float GetPotentialEnergy();
 	float GetCoulombic();
 public:
+	void ResolveCollision();
+public:
 	Particle& PtclaAddr();
 	Particle& PtclbAddr();
 public:
