@@ -45,13 +45,12 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	const float dt = frameTimer.Mark();
-	int x = 0;
+	particles.ParticleSystemComputation();
+	particles.ComputeParticles(dt);
 }
 
 void Game::ComposeFrame()
 {
-	particles.ParticleSystemComputation();
-	particles.ComputeParticles();
 	particles.DrawParticles(gfx);
 }
 

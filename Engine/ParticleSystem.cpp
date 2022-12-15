@@ -49,12 +49,12 @@ void ParticleSystem::ParticleSystemComputation()
 }
 
 // compute and draw
-void ParticleSystem::ComputeParticles()
+void ParticleSystem::ComputeParticles(float dt)
 {
 	for (int i = 0; i < particles.size(); i++)
 	{
 		Particle& ptcl = *particles[i];
-		ptcl.Compute();
+		ptcl.Compute(dt);
 	}
 }
 void ParticleSystem::DrawParticles(Graphics& gfx)

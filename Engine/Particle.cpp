@@ -6,8 +6,8 @@
 // onframe computation bundle
 void Particle::Compute(float dt)
 {
-	position = position.Add(velocity.Scale(dt));
-	velocity = velocity.Add(acceleration.Scale(dt));
+	position = position.Add(velocity.Scale(dt * 60));
+	velocity = velocity.Add(acceleration.Scale(dt * 60));
 	SummateForces();
 	acceleration = netForce.Scale(1 / mass);
 

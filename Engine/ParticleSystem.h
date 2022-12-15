@@ -34,7 +34,7 @@ private:
 	void DetermineCoulombicForces();
 public:
 	void ParticleSystemComputation();
-	void ComputeParticles();
+	void ComputeParticles(float dt);
 	void DrawParticles(Graphics& gfx);
 };
 
