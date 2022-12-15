@@ -28,9 +28,30 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd ),
 	particles({
-		new Particle(5.0f, 1.0f, 1.0f, Vec2(390.0f, 400.0f), Vec2(0.0f, 0.0f)),
-		new Particle(5.0f, 1.0f, 1.0f, Vec2(410.0f, 400.0f), Vec2(0.0f, 0.0f))
-		})
+		/*new Particle(5.0f, 1.0f, 1.0f, Vec2(392.0f, 400.0f), Vec2(0.0f, 0.0f)),
+		new Particle(5.0f, 1.0f, 1.0f, Vec2(408.0f, 400.0f), Vec2(0.0f, 0.0f)),
+		new Particle(5.0f, 1.0f, 1.0f, Vec2(200.0f, 500.0f), Vec2(0.0f, 0.0f)),
+		new Particle(5.0f, 1.0f, 1.0f, Vec2(500.0f, 200.0f), Vec2(0.0f, 0.0f)),
+		new Particle(5.0f, 1.0f, 1.0f, Vec2(392.0f, 300.0f), Vec2(0.0f, 0.0f)),
+		new Particle(5.0f, 1.0f, 1.0f, Vec2(408.0f, 100.0f), Vec2(0.0f, 0.0f)),
+		new Particle(5.0f, 1.0f, 1.0f, Vec2(200.0f, 600.0f), Vec2(0.0f, 0.0f)),
+		new Particle(5.0f, 1.0f, 1.0f, Vec2(500.0f, 250.0f), Vec2(0.0f, 0.0f)),*/
+		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
+		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
+		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
+		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
+		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
+		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
+		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
+		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
+		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
+		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
+		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
+		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
+		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
+		new Particle(), new Particle(), new Particle(), new Particle(), new Particle(), new Particle(),
+		}),
+	gui(&particles)
 {
 }
 
@@ -52,6 +73,7 @@ void Game::UpdateModel()
 void Game::ComposeFrame()
 {
 	particles.DrawParticles(gfx);
+	gui.DrawHUD(gfx);
 }
 
 

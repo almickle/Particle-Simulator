@@ -36,5 +36,10 @@ public:
 	void ParticleSystemComputation();
 	void ComputeParticles(float dt);
 	void DrawParticles(Graphics& gfx);
+public:
+	float GetKineticEnergy();
+	float GetPotentialEnergy();
+	float GetTotalEnergy();
+	int ParticleCount();
 };
 

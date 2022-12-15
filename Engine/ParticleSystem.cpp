@@ -104,3 +104,21 @@ void ParticleSystem::ResetPE()
 	TotalPE = 0.0f;
 }
 
+
+// getter functions
+float ParticleSystem::GetKineticEnergy()
+{
+	return TotalKE;
+}
+float ParticleSystem::GetPotentialEnergy()
+{
+	return TotalPE;
+}
+float ParticleSystem::GetTotalEnergy()
+{
+	return TotalEnergy;
+}
+int ParticleSystem::ParticleCount()
+{
+	return particles.size();
+}

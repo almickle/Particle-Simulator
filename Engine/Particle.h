@@ -3,6 +3,7 @@
 #include "Colors.h"
 #include "Graphics.h"
 #include <vector>
+#include <random>
 
 class Particle
 {
@@ -21,6 +22,14 @@ public:
 		charge > 0.0f ? color = Color(255, 0, 0) : color = Color(0, 0, 255);
 		position = in_position;
 		velocity = in_velocity;
+	}
+	Particle()
+	{
+		radius = 5.0f;
+		mass = 1.0f;
+		charge = 1.0f;
+		color = Color(255, 0, 0);
+		position = Vec2(rand() % 800, rand() % 600);
 	}
 private:
 	float radius;
