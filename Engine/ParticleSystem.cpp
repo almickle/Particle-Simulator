@@ -1,27 +1,51 @@
 #include "ParticleSystem.h"
 
-
-// interparticle calculations
-void ParticleSystem::CalculateCoulombicForces() // needs work
+// on initialization
+void ParticleSystem::AssignParticlePairs()
 {
 	for (int i = 0; i < particles.size(); i++)
 	{
-		Particle& ptcla = *particles[i];
-		ptcla.ClearForces();
 		for (int k = 0; k < particles.size(); k++)
 		{
-			if (k != i)
+			if (i != k)
 			{
-				Particle& ptclb = *particles[k];
-				ptcla.AddForce(ptcla.CalculateCoulombic(ptclb));
+				particlepairs.push_back(new ParticlePair(particles[i], particles[k]));
 			}
 		}
 	}
 }
-void ParticleSystem::CalculateDistances() {
 
+
+void ParticleSystem::ComputeParticlePairs()
+{
+	for (int i = 0; i < particlepairs.size(); i++)
+	{
+		ParticlePair& pair = *particlepairs[i];
+		pair.Calculate();
+	}
+}
+void ParticleSystem::DetermineCoulombicForces()
+{
+	for (int i = 0; i < particlepairs.size(); i++)
+	{
+		ParticlePair& pair = *particlepairs[i];
+		Particle& ptcla = pair.PtclaAddr();
+		Particle& ptclb = pair.PtclbAddr();
+		float fmag = pair.GetCoulombic();
+		Vec2 dira = ptcla.GetPosition().Subtract(ptclb.GetPosition()).Unit();
+		Vec2 dirb = ptclb.GetPosition().Subtract(ptcla.GetPosition()).Unit();
+
+		ptcla.AddForce(dira.Scale(fmag));
+		ptclb.AddForce(dirb.Scale(fmag));
+	}
 }
 
+// interparticle calculations
+void ParticleSystem::ParticleSystemComputation()
+{
+	ComputeParticlePairs();
+	DetermineCoulombicForces();
+}
 
 // compute and draw
 void ParticleSystem::ComputeParticles()
@@ -43,7 +67,7 @@ void ParticleSystem::DrawParticles(Graphics& gfx)
 
 
 // energy calculations
-void ParticleSystem::CalculateKineticEnergy()
+void ParticleSystem::ComputeKineticEnergies()
 {
 	for (int i = 0; i < particles.size(); i++)
 	{
@@ -51,17 +75,18 @@ void ParticleSystem::CalculateKineticEnergy()
 		TotalKE += ptcl.GetKE();
 	}
 }
-void ParticleSystem::CalculatePotentialEnergy() // is hard coded: fix
+void ParticleSystem::ComputePotentialEnergies()
 {
-	Particle& ptcla = *particles[0];
-	Particle& ptclb = *particles[1];
-	float dist = ptcla.GetPosition().Subtract(ptclb.GetPosition()).Mag();
-	TotalPE = 8987.0f / dist;
+	for (int i = 0; i < particlepairs.size(); i++)
+	{
+		ParticlePair& pair = *particlepairs[i];
+		TotalPE += pair.GetPotentialEnergy();
+	}
 }
 void ParticleSystem::ComputeTotalEnergy()
 {
-	CalculateKineticEnergy();
-	CalculatePotentialEnergy();
+	ComputeKineticEnergies();
+	ComputePotentialEnergies();
 	TotalEnergy = TotalPE + TotalKE;
 	ResetKE();
 	ResetPE();

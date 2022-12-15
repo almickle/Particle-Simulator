@@ -50,6 +50,8 @@ public:
 public:
 	Vec2 GetPosition();
 	float GetRadius();
+	float GetCharge();
+
 	float GetKE();
 };
 

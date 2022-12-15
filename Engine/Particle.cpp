@@ -3,7 +3,6 @@
 
 
 
-
 // onframe computation bundle
 void Particle::Compute()
 {
@@ -69,6 +68,11 @@ float Particle::GetRadius()
 {
 	return radius;
 }
+float Particle::GetCharge()
+{
+	return charge;
+}
+
 float Particle::GetKE()
 {
 	return kineticEnergy;

@@ -47,6 +47,7 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
+	particles.ParticleSystemComputation();
 	particles.ComputeParticles();
 	particles.DrawParticles(gfx);
 }
