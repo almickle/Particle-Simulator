@@ -35,23 +35,21 @@ private:
 	float kineticEnergy;
 private:
 	Color color;
-private:
-	const float qscale = 100.0f;
-	const float ke = 8.987f * qscale;
 public:
 	void DrawParticle(Graphics& gfx);
-	void SummateForces();
-	void ClearForces();
 	void AddForce(Vec2 in_force);
-	void Compute();
+	void Compute(float dt);
+private:
 	void Wrap();
 	void Clamp();
+private:
+	void ClearForces();
 	void CalculateKE();
+	void SummateForces();
 public:
 	Vec2 GetPosition();
 	float GetRadius();
 	float GetCharge();
-
 	float GetKE();
 };
 

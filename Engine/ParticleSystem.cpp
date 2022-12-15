@@ -45,6 +45,7 @@ void ParticleSystem::ParticleSystemComputation()
 {
 	ComputeParticlePairs();
 	DetermineCoulombicForces();
+	ComputeTotalEnergy();
 }
 
 // compute and draw
@@ -85,11 +86,11 @@ void ParticleSystem::ComputePotentialEnergies()
 }
 void ParticleSystem::ComputeTotalEnergy()
 {
+	ResetKE();
+	ResetPE();
 	ComputeKineticEnergies();
 	ComputePotentialEnergies();
 	TotalEnergy = TotalPE + TotalKE;
-	ResetKE();
-	ResetPE();
 }
 
 
@@ -102,3 +103,4 @@ void ParticleSystem::ResetPE()
 {
 	TotalPE = 0.0f;
 }
+

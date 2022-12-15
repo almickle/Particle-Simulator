@@ -25,6 +25,7 @@
 #include "Graphics.h"
 #include "Particle.h"
 #include "ParticleSystem.h"
+#include "FrameTimer.h"
 
 class Game
 {
@@ -46,5 +47,6 @@ private:
 	/********************************/
 	/*  User Variables              */
 	ParticleSystem particles;
+	FrameTimer frameTimer;
 	/********************************/
 };

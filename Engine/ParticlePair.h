@@ -13,7 +13,7 @@ public:
 private:
 	Particle* ptcls[2];
 private:
-	float coulombsK = 8.987f;
+	const float coulombsK = 8.98755f;
 private:
 	float distance;
 	float distSq;

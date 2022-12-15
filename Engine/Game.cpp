@@ -20,14 +20,16 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include <chrono>
+
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
 	particles({
-		new Particle(5.0f, 1.0f, 1.0f, Vec2(200.0f, 400.0f), Vec2(1.0f, 0.0f)),
-		new Particle(5.0f, 1.0f, 1.0f, Vec2(400.0f, 400.0f), Vec2(-1.0f, 0.0f))
+		new Particle(5.0f, 1.0f, 1.0f, Vec2(390.0f, 400.0f), Vec2(0.0f, 0.0f)),
+		new Particle(5.0f, 1.0f, 1.0f, Vec2(410.0f, 400.0f), Vec2(0.0f, 0.0f))
 		})
 {
 }
@@ -42,7 +44,8 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-
+	const float dt = frameTimer.Mark();
+	int x = 0;
 }
 
 void Game::ComposeFrame()

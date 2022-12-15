@@ -4,10 +4,10 @@
 
 
 // onframe computation bundle
-void Particle::Compute()
+void Particle::Compute(float dt)
 {
-	position = position.Add(velocity);
-	velocity = velocity.Add(acceleration);
+	position = position.Add(velocity.Scale(dt));
+	velocity = velocity.Add(acceleration.Scale(dt));
 	SummateForces();
 	acceleration = netForce.Scale(1 / mass);
 
@@ -48,7 +48,6 @@ void Particle::DrawParticle(Graphics& gfx)
 			}
 		}
 	}
-	velocity.Scale(10).DrawVec(gfx, position);
 }
 
 
@@ -72,7 +71,6 @@ float Particle::GetCharge()
 {
 	return charge;
 }
-
 float Particle::GetKE()
 {
 	return kineticEnergy;
