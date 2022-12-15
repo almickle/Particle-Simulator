@@ -62,6 +62,36 @@ void Vec2::InvertY()
 
 
 
+// Draw function
+void Vec2::DrawVec(Graphics& gfx, Vec2 start)
+{
+	float unitx = Unit().GetX();
+	float unity = Unit().GetY();
+	float startx = start.GetX();
+	float starty = start.GetY();
+	for (int i = 0; i < (int)x; i++)
+	{
+		for (int x = 0; x <= (int)unitx; x++)
+		{
+			int pixelx = i * unitx + x + startx;
+			int pixely = i * unity + starty;
+			if (pixelx < gfx.ScreenWidth && pixely < gfx.ScreenHeight && pixelx > 0 && pixely > 0) {
+				gfx.PutPixel(pixelx, pixely, 255, 255, 255);
+			}
+		}
+		for (int y = 0; y <= (int)unity; y++)
+		{
+			int pixelx = i * unitx + startx;
+			int pixely = i * unity + y + starty;
+			if (pixelx < gfx.ScreenWidth && pixely < gfx.ScreenHeight && pixelx > 0 && pixely > 0) {
+				gfx.PutPixel(pixelx, pixely, 255, 255, 255);
+			}
+		}
+	}
+}
+
+
+
 // coordinate getter functions
 float Vec2::GetX()
 {

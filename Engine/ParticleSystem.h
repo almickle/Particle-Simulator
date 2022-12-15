@@ -13,8 +13,23 @@ public:
 	}
 private:
 	vector<Particle*> particles;
+private:
+	float TotalKE;
+	float TotalPE;
+	float TotalEnergy;
+private:
+	vector<Vec2> distances;
+private:
+	void CalculateKineticEnergy();
+	void CalculatePotentialEnergy();
+	void ComputeTotalEnergy();
+private:
+	void ResetKE();
+	void ResetPE();
+private:
+	void CalculateDistances();
+	void CalculateCoulombicForces();
 public:
-	void CalculateForces();
 	void ComputeParticles();
 	void DrawParticles(Graphics& gfx);
 };

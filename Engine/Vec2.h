@@ -1,4 +1,6 @@
 #pragma once
+
+#include "Graphics.h"
 #include <corecrt_math.h>
 
 struct Vec2
@@ -25,6 +27,8 @@ public:
 	Vec2 Scale(float scalar);
 	float Mag();
 	float Mag2();
+public:
+	void DrawVec(Graphics& gfx, Vec2 start);
 public:
 	void InvertY();
 	void InvertX();

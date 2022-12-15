@@ -32,23 +32,24 @@ private:
 	Vec2 acceleration = Vec2(0.0f, 0.0f);
 	Vec2 netForce = Vec2(0.0f, 0.0f);
 	std::vector<Vec2> forces;
+	float kineticEnergy;
 private:
 	Color color;
 private:
-	const float qscale = 0.01f;
+	const float qscale = 100.0f;
 	const float ke = 8.987f * qscale;
 public:
 	void DrawParticle(Graphics& gfx);
 	void SummateForces();
 	void ClearForces();
 	void AddForce(Vec2 in_force);
-	Vec2 CalculateCoulombic(Particle& ptclptr);
 	void Compute();
 	void Wrap();
 	void Clamp();
+	void CalculateKE();
 public:
-	void SetVelocity( Vec2 in_velocity);
 	Vec2 GetPosition();
 	float GetRadius();
+	float GetKE();
 };
 
