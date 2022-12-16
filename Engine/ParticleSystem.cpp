@@ -57,13 +57,15 @@ void ParticleSystem::UpdateParticles(float dt)
 		ptcl.Update(dt);
 	}
 }
-void ParticleSystem::AdjustForCollision(float dt)
+void ParticleSystem::AdjustForCollision(float ft)
 {
 	for (int i = 0; i < particlepairs.size(); i++)
 	{
 		ParticlePair& pair = *particlepairs[i];
 		Particle& ptcla = pair.PtclaAddr();
 		Particle& ptclb = pair.PtclbAddr();
+		bool test = pair.GetColliding();
+		int x = 1;
 		if (pair.GetColliding())
 		{
 			Vec2 pav = ptcla.GetVelocity();
@@ -72,15 +74,21 @@ void ParticleSystem::AdjustForCollision(float dt)
 			float pbm = ptclb.GetMass();
 
 			float d = pair.GetDistance();
-			float target = abs(ptcla.GetRadius() - ptclb.GetRadius());
-			float value = target - d;
-			
-			ptcla.AdjustPosition(value);
-			ptclb.AdjustPosition(value);
+			float target = ptcla.GetRadius() + ptclb.GetRadius();
+			float dx = target - d;
+			float ct = dx / (pav.Mag() + pbv.Mag());
+
+			Vec2 dxa = pav.Scale(ct);
+			Vec2 dxb = pbv.Scale(ct);
+
+			ptcla.RetractPosition(dxa);
+			ptclb.RetractPosition(dxb);
+
 			ptcla.AdjustVelocity(pbv, pbm);
 			ptclb.AdjustVelocity(pav, pam);
-			ptcla.ProjectPosition(value, dt);
-			ptclb.ProjectPosition(value, dt);
+
+			/*ptcla.ProjectPosition(ft, ct);
+			ptclb.ProjectPosition(ft, ct);*/
 
 			pair.ResolveCollision();
 		}

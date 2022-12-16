@@ -54,9 +54,9 @@ void Particle::AddForce(Vec2 in_force)
 {
 	forces.push_back(in_force);
 }
-void Particle::AdjustPosition(float amount)
+void Particle::RetractPosition(Vec2 dx)
 {
-	position = position.Subtract(velocity.Unit().Scale(amount));
+	position = position.Subtract(velocity);
 }
 void Particle::AdjustVelocity(Vec2 cpv, float cpm)
 {
@@ -70,14 +70,10 @@ void Particle::AdjustVelocity(Vec2 cpv, float cpm)
 
 	velocity = Vec2(vx, vy);
 }
-
-void Particle::ProjectPosition(float dist, float dt)
+void Particle::ProjectPosition(float ft, float ct)
 {
-	float correctionTime = sqrt((2.0f * (dist - velocity.Mag()) / acceleration.Mag()));
-	float travelTime = (dt - correctionTime) / 60.06f;
-	Vec2 travelDist = velocity.Scale(travelTime).Add(acceleration.Scale(travelTime * travelTime * 0.5f));
-
-	position = position.Add(velocity.Scale(10.0f * dt * 60.0f));
+	float travelTime = ft - ct;
+	position = position.Add(velocity.Scale(travelTime));
 }
 
 

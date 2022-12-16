@@ -44,6 +44,15 @@ public:
 		velocity = Vec2((float)(rand() % 3), (float)(rand() % 3));
 		CalculateKE();
 	}
+	Particle(Vec2 in_position, Vec2 in_velocity, Color in_color) {
+		radius = 5.0f;
+		mass = 1.0f;
+		charge = 1.0f;
+		color = in_color;
+		position = in_position;
+		velocity = in_velocity;
+		CalculateKE();
+	}
 private:
 	float radius;
 	float mass;
@@ -69,9 +78,9 @@ private:
 	void SummateForces();
 public:
 	void AddForce(Vec2 in_force);
-	void AdjustPosition(float amount);
+	void RetractPosition(Vec2 dx);
 	void AdjustVelocity(Vec2 cpv, float cpm);
-	void ProjectPosition(float dist, float dt);
+	void ProjectPosition(float dt, float ct);
 public:
 	Vec2 GetPosition();
 	float GetRadius();

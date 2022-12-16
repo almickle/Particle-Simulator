@@ -33,6 +33,13 @@ Game::Game( MainWindow& wnd )
 		new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f),
 		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
 		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
+		new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f),
+		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
+		new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f),
+		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
+		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
+		//new Particle(Vec2(300.0f, 300.0f), Vec2(0.0f, 0.0f), Color(0, 255, 255)),
+		//new Particle(Vec2(500.0f, 300.0f), Vec2(-5.0f, 0.0f), Color(255, 255, 0))
 	}),	
 	gui(&particles)
 {
@@ -57,7 +64,7 @@ void Game::UpdateModel()
 void Game::ComposeFrame()
 {
 	particles.DrawParticles(gfx);
-	//gui.DrawHUD(gfx);
+	gui.DrawHUD(gfx);
 }
 
 

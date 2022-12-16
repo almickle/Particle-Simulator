@@ -35,7 +35,7 @@ private:
 public:
 	void ParticleSystemComputation();
 	void UpdateParticles(float dt);
-	void AdjustForCollision(float dt);
+	void AdjustForCollision(float ft);
 	void DrawParticles(Graphics& gfx);
 public:
 	float GetKineticEnergy();

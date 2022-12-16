@@ -8,17 +8,18 @@ void ParticlePair::Calculate()
 	Particle& ptclb = PtclbAddr();
 
 	float d = ptcla.GetPosition().Subtract(ptclb.GetPosition()).Mag();
+	float df = d;
 	if (d < (ptcla.GetRadius() + ptclb.GetRadius()))
 	{
-		d = ptcla.GetRadius() + ptclb.GetRadius();
+		df = ptcla.GetRadius() + ptclb.GetRadius();
 		colliding = true;
 	}
 	else {
 		colliding = false;
 	}
 
-	float pe = coulombsK * ptcla.GetCharge() * ptclb.GetCharge() / d;
-	float f = pe / d;
+	float pe = coulombsK * ptcla.GetCharge() * ptclb.GetCharge() / df;
+	float f = pe / df;
 
 	distance = d;
 	potentialEnergy = pe;
