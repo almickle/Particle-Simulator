@@ -2,6 +2,7 @@
 #include "Vec2.h"
 #include "Colors.h"
 #include "Graphics.h"
+#include "Container.h"
 #include <vector>
 #include <random>
 
@@ -53,6 +54,15 @@ public:
 		velocity = in_velocity;
 		CalculateKE();
 	}
+	Particle(bool sign, float mag, Container& box)
+	{
+		radius = mag + 4.0f;
+		mass = 1.0f;
+		sign ? charge = mag : charge = -mag;
+		charge < 0.0f ? color = Color(255, 0, 0) : color = Color(0, 0, 255);
+		position = Vec2((float)box.GetContainerX() + (float)(rand() % box.GetContainerWidth()), (float)box.GetContainerY() + (float)(rand() % box.GetContainerHeight()));
+		CalculateKE();
+	}
 private:
 	float radius;
 	float mass;
@@ -71,7 +81,7 @@ public:
 	void Update(float dt);
 public:
 	void Wrap();
-	void Clamp();
+	void Clamp(Container& box);
 private:
 	void ClearForces();
 	void CalculateKE();

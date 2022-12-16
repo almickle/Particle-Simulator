@@ -27,19 +27,24 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
+	box(300, 300, 200, 200),
 	particles({
-		new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f),
-		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
-		new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f),
-		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
-		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
-		new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f),
-		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
-		new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f), new Particle(true, 1.0f),
-		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
-		new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f), new Particle(false, 1.0f),
-		//new Particle(Vec2(300.0f, 300.0f), Vec2(0.0f, 0.0f), Color(0, 255, 255)),
-		//new Particle(Vec2(500.0f, 300.0f), Vec2(-5.0f, 0.0f), Color(255, 255, 0))
+		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
+		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
+		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
+		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
+		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
+		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
+		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
+		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
+		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
+		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
+		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
+		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
+		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
+		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
+		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
+		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
 	}),	
 	gui(&particles)
 {
@@ -58,11 +63,12 @@ void Game::UpdateModel()
 	const float dt = frameTimer.Mark();
 	particles.ParticleSystemComputation();
 	particles.UpdateParticles(dt);
-	particles.AdjustForCollision(dt);
+	particles.AdjustForCollision(dt, box);
 }
 
 void Game::ComposeFrame()
 {
+	box.DrawContainer(gfx);
 	particles.DrawParticles(gfx);
 	gui.DrawHUD(gfx);
 }

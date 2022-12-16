@@ -57,6 +57,7 @@ void Particle::AddForce(Vec2 in_force)
 void Particle::RetractPosition(Vec2 dx)
 {
 	position = position.Subtract(velocity);
+	position = position.Subtract(dx);
 }
 void Particle::AdjustVelocity(Vec2 cpv, float cpm)
 {
@@ -68,12 +69,12 @@ void Particle::AdjustVelocity(Vec2 cpv, float cpm)
 	float vx = (2.0f * cpm * cpvx + mass * velx - cpm * velx) / (mass + cpm);
 	float vy = (2.0f * cpm * cpvy + mass * vely - cpm * vely) / (mass + cpm);
 
-	velocity = Vec2(vx, vy);
+	velocity = Vec2(vx * 0.90f, vy * 0.90f);
 }
 void Particle::ProjectPosition(float ft, float ct)
 {
 	float travelTime = ft - ct;
-	position = position.Add(velocity.Scale(travelTime));
+	position = position.Subtract(velocity.Scale(travelTime));
 }
 
 
@@ -126,29 +127,29 @@ void Particle::Wrap()
 		position = Vec2(position.GetX(), (float)Graphics::ScreenHeight - radius);
 	}
 }
-void Particle::Clamp()
+void Particle::Clamp(Container& box)
 {
 	// x-axis clamping
-	if (position.GetX() + radius > Graphics::ScreenWidth)
+	if (position.GetX() + radius > box.GetContainerWidth() + box.GetContainerX())
 	{
-		position = Vec2((float)Graphics::ScreenWidth - radius, position.GetY());
+		position = Vec2((float)box.GetContainerWidth() + box.GetContainerX() - radius, position.GetY());
 		velocity.InvertX();
 	}
-	if (position.GetX() - radius < 0)
+	if (position.GetX() - radius < box.GetContainerX())
 	{
-		position = Vec2(radius, position.GetY());
+		position = Vec2(box.GetContainerX() + radius, position.GetY());
 		velocity.InvertX();
 	}
 
 	// y-axis clamping
-	if (position.GetY() + radius > Graphics::ScreenHeight)
+	if (position.GetY() + radius > box.GetContainerHeight() + box.GetContainerY())
 	{
-		position = Vec2(position.GetX(), (float)Graphics::ScreenHeight - radius);
+		position = Vec2(position.GetX(), (float)box.GetContainerHeight() + box.GetContainerY() - radius);
 		velocity.InvertY();
 	}
-	if (position.GetY() - radius < 0)
+	if (position.GetY() - radius < box.GetContainerY())
 	{
-		position = Vec2(position.GetX(), radius);
+		position = Vec2(position.GetX(), box.GetContainerY() + radius);
 		velocity.InvertY();
 	}
 }

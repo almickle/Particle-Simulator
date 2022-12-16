@@ -1,6 +1,7 @@
 #pragma once
 #include "Particle.h"
 #include "ParticlePair.h"
+#include "Container.h"
 #include <vector>
 
 using std::vector;
@@ -35,7 +36,7 @@ private:
 public:
 	void ParticleSystemComputation();
 	void UpdateParticles(float dt);
-	void AdjustForCollision(float ft);
+	void AdjustForCollision(float ft, Container& box);
 	void DrawParticles(Graphics& gfx);
 public:
 	float GetKineticEnergy();

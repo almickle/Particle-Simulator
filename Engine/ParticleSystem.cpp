@@ -57,7 +57,7 @@ void ParticleSystem::UpdateParticles(float dt)
 		ptcl.Update(dt);
 	}
 }
-void ParticleSystem::AdjustForCollision(float ft)
+void ParticleSystem::AdjustForCollision(float ft, Container& box)
 {
 	for (int i = 0; i < particlepairs.size(); i++)
 	{
@@ -87,13 +87,13 @@ void ParticleSystem::AdjustForCollision(float ft)
 			ptcla.AdjustVelocity(pbv, pbm);
 			ptclb.AdjustVelocity(pav, pam);
 
-			/*ptcla.ProjectPosition(ft, ct);
-			ptclb.ProjectPosition(ft, ct);*/
+			ptcla.ProjectPosition(ft, ct);
+			ptclb.ProjectPosition(ft, ct);
 
 			pair.ResolveCollision();
 		}
-		ptcla.Clamp();
-		ptclb.Clamp();
+		ptcla.Clamp(box);
+		ptclb.Clamp(box);
 	}
 }
 void ParticleSystem::DrawParticles(Graphics& gfx)
