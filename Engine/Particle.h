@@ -9,58 +9,25 @@
 class Particle
 {
 public:
-	Particle(float in_radius, float in_mass, float in_charge, Vec2 in_position) {
-		radius = in_radius;
-		mass = in_mass;
-		charge = in_charge;
-		charge > 0.0f ? color = Color(255, 0, 0) : color = Color(0, 0, 255);
-		position = in_position;
-		CalculateKE();
-	}
-	Particle(float in_radius, float in_mass, float in_charge, Vec2 in_position, Vec2 in_velocity) {
-		radius = in_radius;
-		mass = in_mass;
-		charge = in_charge;
-		charge > 0.0f ? color = Color(255, 0, 0) : color = Color(0, 0, 255);
-		position = in_position;
-		velocity = in_velocity;
-		CalculateKE();
-	}
-	Particle(bool sign, float mag)
+	Particle(Vec2 in_position, float in_radius, float in_charge, float in_mass)
 	{
-		radius = mag + 4.0f;
-		mass = 1.0f;
-		sign ? charge = mag : charge = -mag;
+		position = in_position;
+		radius = in_radius;
+		charge = in_charge;
+		mass = in_mass;
 		charge < 0.0f ? color = Color(255, 0, 0) : color = Color(0, 0, 255);
-		position = Vec2((float)(rand() % 800), (float)(rand() % 600));
-		CalculateKE();
 	}
-	Particle()
-	{
+	Particle(float v, float space, bool flag, bool sign, Container& box) {
 		radius = 5.0f;
 		mass = 1.0f;
-		charge = 0.0f;
-		color = Color(255, 255, 0);
-		position = Vec2((float)(rand() % 800), (float)(rand() % 600));
-		velocity = Vec2((float)(rand() % 3), (float)(rand() % 3));
-		CalculateKE();
-	}
-	Particle(Vec2 in_position, Vec2 in_velocity, Color in_color) {
-		radius = 5.0f;
-		mass = 1.0f;
-		charge = 1.0f;
-		color = in_color;
-		position = in_position;
-		velocity = in_velocity;
-		CalculateKE();
-	}
-	Particle(bool sign, float mag, Container& box)
-	{
-		radius = mag + 4.0f;
-		mass = 1.0f;
-		sign ? charge = mag : charge = -mag;
+		sign ? charge = 1.0f : charge = -1.0f;
 		charge < 0.0f ? color = Color(255, 0, 0) : color = Color(0, 0, 255);
-		position = Vec2((float)box.GetContainerX() + (float)(rand() % box.GetContainerWidth()), (float)box.GetContainerY() + (float)(rand() % box.GetContainerHeight()));
+		float adj;
+		float speed;
+		flag ? adj = space : adj = -space;
+		flag ? speed = v : speed = -v;
+		position = Vec2((float)box.GetContainerX() + ((float)(box.GetContainerWidth() - adj) / 2.0f), (float)box.GetContainerY() + ((float)box.GetContainerHeight() / 2.0f));
+		velocity = Vec2(speed, 0.0f);
 		CalculateKE();
 	}
 private:
@@ -73,7 +40,7 @@ private:
 	Vec2 acceleration = Vec2(0.0f, 0.0f);
 	Vec2 netForce = Vec2(0.0f, 0.0f);
 	std::vector<Vec2> forces;
-	float kineticEnergy;
+	float kineticEnergy = 0.0f;
 private:
 	Color color;
 public:
@@ -88,8 +55,9 @@ private:
 	void SummateForces();
 public:
 	void AddForce(Vec2 in_force);
-	void RetractPosition(Vec2 dx);
-	void AdjustVelocity(Vec2 cpv, float cpm);
+	void AddVelocity(float boost);
+	void RetractPosition(float dx);
+	void AdjustVelocity(Vec2 vel);
 	void ProjectPosition(float dt, float ct);
 public:
 	Vec2 GetPosition();
@@ -98,5 +66,7 @@ public:
 	float GetKE();
 	Vec2 GetVelocity();
 	float GetMass();
+public:
+	void SetPosition(Vec2 location);
 };
 

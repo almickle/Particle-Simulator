@@ -20,8 +20,8 @@ private:
 	float y;
 public:
 	Vec2 Unit();
-	Vec2 Cross( Vec2 vector );
-	float Dot( Vec2 vector );
+	Vec2 Cross(Vec2 vector);
+	float Dot(Vec2 vector);
 	Vec2 Add(Vec2 vector);
 	Vec2 Subtract(Vec2 vector);
 	Vec2 Scale(float scalar);

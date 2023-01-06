@@ -28,6 +28,10 @@
 #include "FrameTimer.h"
 #include "Gui.h"
 #include "Container.h"
+#include "Water.h"
+#include "Ethane.h"
+#include "Electron.h"
+#include "UserCharge.h"
 
 class Game
 {
@@ -49,8 +53,9 @@ private:
 	/********************************/
 	/*  User Variables              */
 	Container box;
-	ParticleSystem particles;
 	FrameTimer frameTimer;
-	Gui gui;
+	Electron electron;
+	UserCharge user;
+	//Ethane ethane;
 	/********************************/
 };

@@ -40,13 +40,33 @@ void ParticleSystem::DetermineCoulombicForces()
 	}
 }
 
+void ParticleSystem::AddCovalentForces()
+{
+	for (int i = 0; i < particlepairs.size(); i++)
+	{
+		ParticlePair& pair = *particlepairs[i];
+		Particle& ptcla = pair.PtclaAddr();
+		Particle& ptclb = pair.PtclbAddr();
+		float fmag = pair.GetCovalentForce();
+		Vec2 dira = ptclb.GetPosition().Subtract(ptcla.GetPosition()).Unit();
+		Vec2 dirb = ptcla.GetPosition().Subtract(ptclb.GetPosition()).Unit();
+
+		ptcla.AddForce(dira.Scale(fmag));
+		ptclb.AddForce(dirb.Scale(fmag));
+	}
+}
+
+
 // interparticle calculations
 void ParticleSystem::ParticleSystemComputation()
 {
 	ComputeParticlePairs();
 	DetermineCoulombicForces();
+	AddCovalentForces();
 	ComputeTotalEnergy();
+	CalculateTemperature();
 }
+
 
 // compute and draw
 void ParticleSystem::UpdateParticles(float dt)
@@ -62,38 +82,20 @@ void ParticleSystem::AdjustForCollision(float ft, Container& box)
 	for (int i = 0; i < particlepairs.size(); i++)
 	{
 		ParticlePair& pair = *particlepairs[i];
-		Particle& ptcla = pair.PtclaAddr();
-		Particle& ptclb = pair.PtclbAddr();
-		bool test = pair.GetColliding();
-		int x = 1;
 		if (pair.GetColliding())
 		{
-			Vec2 pav = ptcla.GetVelocity();
-			Vec2 pbv = ptclb.GetVelocity();
-			float pam = ptcla.GetMass();
-			float pbm = ptclb.GetMass();
-
-			float d = pair.GetDistance();
-			float target = ptcla.GetRadius() + ptclb.GetRadius();
-			float dx = target - d;
-			float ct = dx / (pav.Mag() + pbv.Mag());
-
-			Vec2 dxa = pav.Scale(ct);
-			Vec2 dxb = pbv.Scale(ct);
-
-			ptcla.RetractPosition(dxa);
-			ptclb.RetractPosition(dxb);
-
-			ptcla.AdjustVelocity(pbv, pbm);
-			ptclb.AdjustVelocity(pav, pam);
-
-			ptcla.ProjectPosition(ft, ct);
-			ptclb.ProjectPosition(ft, ct);
+			pair.RetractPositions();
+			pair.AdjustVelocities();
+		//	//pair.ProjectPositions();
 
 			pair.ResolveCollision();
 		}
+		Particle& ptcla = pair.PtclaAddr();
+		Particle& ptclb = pair.PtclbAddr();
 		ptcla.Clamp(box);
 		ptclb.Clamp(box);
+
+		//ReturnEnergy();
 	}
 }
 void ParticleSystem::DrawParticles(Graphics& gfx)
@@ -132,6 +134,32 @@ void ParticleSystem::ComputeTotalEnergy()
 	TotalEnergy = TotalPE + TotalKE;
 }
 
+// temperature
+void ParticleSystem::CalculateTemperature()
+{
+	float ke = TotalKE;
+	float pc = ParticleCount();
+	float bz = boltzman;
+	temperature = (TotalKE / ParticleCount()) / boltzman;
+}
+float ParticleSystem::GetTemperature()
+{
+	return temperature;
+}
+void ParticleSystem::ChangeTemperature(bool up, float value)
+{
+
+}
+void ParticleSystem::ReturnEnergy()
+{
+	float velperptcl = lostVelocity / particleCount;
+	for (int i = 0; i < particleCount; i++)
+	{
+		Particle& ptcl = *particles[i];
+		ptcl.AddVelocity(velperptcl);
+	}
+	lostVelocity = 0.0f;
+}
 
 // resetting energy each frame
 void ParticleSystem::ResetKE()

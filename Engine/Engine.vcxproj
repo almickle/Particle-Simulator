@@ -136,18 +136,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Atom.h" />
+    <ClInclude Include="Bond.h" />
+    <ClInclude Include="BondingGroup.h" />
     <ClInclude Include="ChiliException.h" />
     <ClInclude Include="ChiliWin.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="COMInitializer.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="DXErr.h" />
+    <ClInclude Include="Electron.h" />
+    <ClInclude Include="Ethane.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Gui.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="Methane.h" />
+    <ClInclude Include="Molecule.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticlePair.h" />
@@ -155,12 +162,19 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundEffect.h" />
+    <ClInclude Include="UserCharge.h" />
     <ClInclude Include="Vec2.h" />
+    <ClInclude Include="Water.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Atom.cpp" />
+    <ClCompile Include="Bond.cpp" />
+    <ClCompile Include="BondingGroup.cpp" />
     <ClCompile Include="COMInitializer.cpp" />
     <ClCompile Include="Container.cpp" />
     <ClCompile Include="DXErr.cpp" />
+    <ClCompile Include="Electron.cpp" />
+    <ClCompile Include="Ethane.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -168,12 +182,16 @@
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="Methane.cpp" />
+    <ClCompile Include="Molecule.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticlePair.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="UserCharge.cpp" />
     <ClCompile Include="Vec2.cpp" />
+    <ClCompile Include="Water.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FramebufferPS.hlsl">

@@ -8,8 +8,8 @@ void Particle::Update(float dt)
 {
 	SummateForces();
 	acceleration = netForce.Scale(1 / mass);
-	velocity = velocity.Add(acceleration.Scale(dt * 60.0f));
-	position = position.Add(velocity.Scale(dt * 60.0f));
+	velocity = velocity.Add(acceleration); // .Scale(dt * 60.0f));
+	position = position.Add(velocity); // .Scale(dt * 60.0f));
 
 	CalculateKE();
 	ClearForces();
@@ -54,27 +54,24 @@ void Particle::AddForce(Vec2 in_force)
 {
 	forces.push_back(in_force);
 }
-void Particle::RetractPosition(Vec2 dx)
+void Particle::AddVelocity(float boost)
 {
-	position = position.Subtract(velocity);
-	position = position.Subtract(dx);
+	velocity = velocity.Add(velocity.Unit().Scale(boost));
 }
-void Particle::AdjustVelocity(Vec2 cpv, float cpm)
+
+// collision handling
+void Particle::RetractPosition(float dx)
 {
-	float cpvx = cpv.GetX();
-	float cpvy = cpv.GetY();
-	float velx = velocity.GetX();
-	float vely = velocity.GetY();
-
-	float vx = (2.0f * cpm * cpvx + mass * velx - cpm * velx) / (mass + cpm);
-	float vy = (2.0f * cpm * cpvy + mass * vely - cpm * vely) / (mass + cpm);
-
-	velocity = Vec2(vx * 0.90f, vy * 0.90f);
+	position = position.Subtract(velocity.Scale(dx));
+}
+void Particle::AdjustVelocity(Vec2 vel)
+{
+	velocity = vel;
 }
 void Particle::ProjectPosition(float ft, float ct)
 {
 	float travelTime = ft - ct;
-	position = position.Subtract(velocity.Scale(travelTime));
+	position = position.Add(velocity.Scale((travelTime * 60.0f)));
 }
 
 
@@ -103,6 +100,13 @@ float Particle::GetMass()
 {
 	return mass;
 }
+
+// setter functions
+void Particle::SetPosition(Vec2 location)
+{
+	position = location;
+}
+
 
 // border handling
 void Particle::Wrap()
@@ -153,21 +157,3 @@ void Particle::Clamp(Container& box)
 		velocity.InvertY();
 	}
 }
-
-
-
-
-
-//Vec2 Particle::CalculateCoulombic(Particle& ptcl)
-//{
-//	Vec2 dist = position.Subtract(ptcl.position);
-//	float fscalar = ke * charge * ptcl.charge / dist.Mag2();
-//
-//	return dist.Unit().Scale(fscalar);
-//}
-
-// setter functions
-//void Particle::SetVelocity(Vec2 in_velocity)
-//{
-//	velocity = in_velocity;
-//}

@@ -23,31 +23,16 @@
 #include <chrono>
 
 
-Game::Game( MainWindow& wnd )
+Game::Game(MainWindow& wnd)
 	:
-	wnd( wnd ),
-	gfx( wnd ),
+	wnd(wnd),
+	gfx(wnd),
 	box(300, 300, 200, 200),
-	particles({
-		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
-		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
-		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
-		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
-		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
-		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
-		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
-		new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box), new Particle(true, 1.0f, box),
-		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
-		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
-		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
-		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
-		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
-		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
-		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
-		new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box), new Particle(false, 1.0f, box),
-	}),	
-	gui(&particles)
+	electron(Vec2(350.0f, 350.0f), 30),
+	user()
+	//ethane(Vec2(350.0f, 350.0f))
 {
+
 }
 
 void Game::Go()
@@ -61,16 +46,24 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	const float dt = frameTimer.Mark();
-	particles.ParticleSystemComputation();
-	particles.UpdateParticles(dt);
-	particles.AdjustForCollision(dt, box);
+	electron.Compute();
+	user.CalculateInteractions(electron);
+	electron.AdjustCollision(box);
+	electron.Update();
+	user.DeterminePosition(wnd);
+	//particles.ParticleSystemComputation();
+	//particles.UpdateParticles(dt);
+	//particles.AdjustForCollision(dt, box);
 }
 
 void Game::ComposeFrame()
 {
 	box.DrawContainer(gfx);
-	particles.DrawParticles(gfx);
-	gui.DrawHUD(gfx);
+	electron.Draw(gfx);
+	user.Draw(gfx);
+	//water.Draw(gfx);
+	//particles.DrawParticles(gfx);
+	//gui.DrawHUD(gfx);
 }
 
 
