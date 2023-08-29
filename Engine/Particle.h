@@ -1,72 +1,62 @@
 #pragma once
-#include "Vec2.h"
 #include "Colors.h"
-#include "Graphics.h"
-#include "Container.h"
+#include <Eigen/Dense>
 #include <vector>
-#include <random>
+
+using namespace Eigen;
+using namespace std;
 
 class Particle
 {
 public:
-	Particle(Vec2 in_position, float in_radius, float in_charge, float in_mass)
+	Particle()
+	{
+
+	}
+	Particle(Vector2f in_position, Color in_color, float in_mass)
 	{
 		position = in_position;
-		radius = in_radius;
-		charge = in_charge;
+		color = in_color;
 		mass = in_mass;
-		charge < 0.0f ? color = Color(255, 0, 0) : color = Color(0, 0, 255);
+		radius = sqrt(in_mass) * 4;
 	}
-	Particle(float v, float space, bool flag, bool sign, Container& box) {
-		radius = 5.0f;
-		mass = 1.0f;
-		sign ? charge = 1.0f : charge = -1.0f;
-		charge < 0.0f ? color = Color(255, 0, 0) : color = Color(0, 0, 255);
-		float adj;
-		float speed;
-		flag ? adj = space : adj = -space;
-		flag ? speed = v : speed = -v;
-		position = Vec2((float)box.GetContainerX() + ((float)(box.GetContainerWidth() - adj) / 2.0f), (float)box.GetContainerY() + ((float)box.GetContainerHeight() / 2.0f));
-		velocity = Vec2(speed, 0.0f);
-		CalculateKE();
-	}
-private:
-	float radius;
-	float mass;
-	float charge;
-private:
-	Vec2 position;
-	Vec2 velocity = Vec2(0.0f, 0.0f);
-	Vec2 acceleration = Vec2(0.0f, 0.0f);
-	Vec2 netForce = Vec2(0.0f, 0.0f);
-	std::vector<Vec2> forces;
-	float kineticEnergy = 0.0f;
-private:
-	Color color;
-public:
-	void DrawParticle(Graphics& gfx);
-	void Update(float dt);
-public:
-	void Wrap();
-	void Clamp(Container& box);
-private:
-	void ClearForces();
-	void CalculateKE();
-	void SummateForces();
-public:
-	void AddForce(Vec2 in_force);
-	void AddVelocity(float boost);
-	void RetractPosition(float dx);
-	void AdjustVelocity(Vec2 vel);
-	void ProjectPosition(float dt, float ct);
-public:
-	Vec2 GetPosition();
-	float GetRadius();
-	float GetCharge();
-	float GetKE();
-	Vec2 GetVelocity();
-	float GetMass();
-public:
-	void SetPosition(Vec2 location);
-};
 
+public:
+	//void DrawParticle(Painter& painter);
+	void Compute();
+private:
+	float stepTime = 0.01f;
+private:
+	Color color = Color(255, 255, 0);
+private:
+	float mass = 1.0f;
+	float charge = -1.0f;
+	float radius = 5.0f;
+private:
+	Vector2f position = Vector2f(0.0f, 0.0f);
+	Vector2f velocity = Vector2f(0.0f, 0.0f);
+	Vector2f acceleration = Vector2f(0.0f, 0.0f);
+	Vector2f momentum = Vector2f(0.0f, 0.0f);
+private:
+	vector<Vector2f> forces = { Vector2f(0.0f, 0.0f) };
+	Vector2f netForce = Vector2f(0.0f, 0.0f);
+	void ComputeForces();
+public:
+	vector<Vector2f> path;
+	void AddToPath(Vector2f pos);
+public:
+	void AddMomentum(Vector2f momenta);
+	void AddForce(Vector2f force);
+public:
+	Vector2f GetPosition();
+	Vector2f GetVelocity();
+	Vector2f GetMomentum();
+	Vector2f GetNetForce();
+	Color GetColor();
+	float GetRadius();
+	void SetPosition(Vector2f position);
+	void ReflectMomentum(Vector2f axis);
+	void SetColor(Color color);
+	float GetKineticEnergy();
+	vector<Vector2f> GetPath();
+};

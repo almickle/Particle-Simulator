@@ -1,31 +1,71 @@
 #pragma once
+#define _USE_MATH_DEFINES
 #include "Particle.h"
+#include "Painter.h"
+#include <math.h>
+#include <array>
+#include <Eigen/Geometry>
+
+
 
 class Bond
 {
 public:
-	Bond(Particle* atom1, Particle* atom2, int in_type) {
-		atoms[0] = atom1;
-		atoms[1] = atom2;
-		type = in_type;
-		type < 1 ? length = 12.0f : type > 1 ? length = 3.0f : length = 6.0f;
+	Bond()
+	{
+		ptcla_ptr = &Particle();
+		ptclb_ptr = &Particle();
+
+		particles[0] = ptcla_ptr;
+		particles[1] = ptclb_ptr;
+
+		Particle& ptcla = *ptcla_ptr;
+		Particle& ptclb = *ptclb_ptr;
+		ptcla.AddMomentum(Vector2f(-120.0f, 100.0f));
+		ptclb.AddMomentum(Vector2f(-100.0f, 120.0f));
+
+		ComputeInitialData();
 	}
-private:
-	Particle* atoms[2];
-private:
-	int type;
-private:
-	float force = 0.0f;
-	float length = 0.0f;
-	float distanceSq = 0.0f;
-	bool intact = true;
-private:
-	float CalculateDistanceSq();
-	void MaintainBondLength();
+	Bond(Particle* in_ptcla, Particle* in_ptclb)
+	{
+		ptcla_ptr = in_ptcla;
+		ptclb_ptr = in_ptclb;
+
+		particles.push_back(in_ptcla);
+		particles.push_back(in_ptclb);
+
+		ComputeInitialData();
+	}
 public:
+	void DrawBond(Painter& painter);
 	void Compute();
+private:
+	Particle* ptcla_ptr;
+	Particle* ptclb_ptr;
+	vector<Particle*> particles = {};
+private:
+	float equillibriumLength = 20.0f;
+	float springConstant = 10000.0f;
+private:
+	Vector2f midPoint;
+	Vector2f displacement;
+	Vector2f distanceA;
+	Vector2f distanceB;
+	Vector2f deltaA;
+	Vector2f deltaB;
+private:
+	float initialEnergy;
+private:
+	void HarmonicOscillator();
+	void ComputeInitialData();
 public:
-	Particle& GetEntityA();
-	Particle& GetEntityB();
+	vector<Particle*> GetParticles();
+	Particle& GetParticleA();
+	Particle& GetParticleB();
+	float GetMomentum();
+	float GetKineticEnergy();
+	float GetPotentialEnergy();
+	float GetTotalEnergy();
+	float GetInitialEnergy();
 };
 

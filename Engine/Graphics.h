@@ -47,7 +47,7 @@ private:
 		float u,v;			// texcoords
 	};
 public:
-	Graphics( class HWNDKey& key );
+	Graphics( class HWNDKey& key);
 	Graphics( const Graphics& ) = delete;
 	Graphics& operator=( const Graphics& ) = delete;
 	void EndFrame();
@@ -73,6 +73,7 @@ private:
 	D3D11_MAPPED_SUBRESOURCE							mappedSysBufferTexture;
 	Color*                                              pSysBuffer = nullptr;
 public:
-	static constexpr int ScreenWidth = 800;
-	static constexpr int ScreenHeight = 600;
+	RECT cr;
+	static constexpr int ScreenWidth = 1200;
+	static constexpr int ScreenHeight = 800;
 };

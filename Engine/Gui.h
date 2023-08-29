@@ -1,21 +1,21 @@
 #pragma once
-
-#include "ParticleSystem.h" 
+#include "Painter.h"
+#include "Bond.h"
 
 class Gui
 {
 public:
-	Gui(ParticleSystem* sys_ref)
+	Gui(Painter* ptr, Bond* in_bond)
 	{
-		sys = sys_ref;
+		painter_ptr = ptr;
+		bond_ptr = in_bond;
 	}
 private:
-	ParticleSystem* sys;
+	Painter* painter_ptr;
+	Bond* bond_ptr;
 private:
-	void DrawBar(Graphics& gfx, int locx, int locy, int width, float value, float max, Color color);
-	void DrawFreeBar(Graphics& gfx, int locx, int locy, int width, float value, Color color);
-	int Map(float out_start, float out_end, float in_start, float in_end, float input);
+	void RenderValueBar(Vector2f position, float height, float value, Color color);
 public:
-	void DrawHUD(Graphics& gfx);
+	void RenderHUD();
 };
 

@@ -27,10 +27,9 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	box(300, 300, 200, 200),
-	electron(Vec2(350.0f, 350.0f), 30),
-	user()
-	//ethane(Vec2(350.0f, 350.0f))
+	box(gfx, 20),
+	atom(),
+	painter(&gfx)
 {
 
 }
@@ -46,24 +45,13 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	const float dt = frameTimer.Mark();
-	electron.Compute();
-	user.CalculateInteractions(electron);
-	electron.AdjustCollision(box);
-	electron.Update();
-	user.DeterminePosition(wnd);
-	//particles.ParticleSystemComputation();
-	//particles.UpdateParticles(dt);
-	//particles.AdjustForCollision(dt, box);
+	atom.Compute();
 }
 
 void Game::ComposeFrame()
 {
 	box.DrawContainer(gfx);
-	electron.Draw(gfx);
-	user.Draw(gfx);
-	//water.Draw(gfx);
-	//particles.DrawParticles(gfx);
-	//gui.DrawHUD(gfx);
+	atom.Draw(painter);
 }
 
 

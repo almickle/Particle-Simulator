@@ -1,21 +1,28 @@
 #include "Atom.h"
-#include "Vec2.h"
-#include "Colors.h"
 
-void Atom::Draw(Graphics& gfx)
+void Atom::Compute()
 {
-	int radius = 5;
-	float r2 = radius * radius;
-	Vec2 position = Vec2(350.0f, 350.0f);
-	Color color = Color(255, 0, 255);
-	for(int x = (int)-radius; x <= (int)radius; x++)
+	for (int i = 0; i < bonds.size(); i++)
 	{
-		for (int y = (int)-radius; y <= (int)radius; y++)
-		{
-			float d2 = (float)x * (float)x + (float)y * (float)y;
-			if (d2 < r2) {
-				gfx.PutPixel((int)(position.GetX() + (float)x), (int)(position.GetY() + (float)y), color);
-			}
-		}
+		bonds[i].Compute();
+	}
+	for (int i = 0; i < particles.size(); i++)
+	{
+		Particle& ptcl = *particles[i];
+		ptcl.Compute();
+	}
+}
+
+void Atom::Draw(Painter& painter)
+{
+	painter.DrawPath(nucleus.GetPath());
+	for (int i = 0; i < bonds.size(); i++)
+	{
+		bonds[i].DrawBond(painter);
+	}
+	for (int i = 0; i < particles.size(); i++)
+	{
+		Particle& ptcl = *particles[i];
+		painter.DrawParticle(ptcl);
 	}
 }

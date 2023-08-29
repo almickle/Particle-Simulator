@@ -23,15 +23,12 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
-#include "Particle.h"
-#include "ParticleSystem.h"
+#include "Painter.h"
 #include "FrameTimer.h"
-#include "Gui.h"
 #include "Container.h"
-#include "Water.h"
-#include "Ethane.h"
-#include "Electron.h"
-#include "UserCharge.h"
+#include "Bond.h"
+#include "Atom.h"
+#include "Gui.h"
 
 class Game
 {
@@ -53,9 +50,8 @@ private:
 	/********************************/
 	/*  User Variables              */
 	Container box;
+	Atom atom;
+	Painter painter;
 	FrameTimer frameTimer;
-	Electron electron;
-	UserCharge user;
-	//Ethane ethane;
 	/********************************/
 };
